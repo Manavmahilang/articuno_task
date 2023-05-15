@@ -1,0 +1,25 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://postgres:Postgres789@localhost:5432/blog
+      NODE_ENV: development
+    volumes:
+      - ./blog_task:/app
+    command: npm run dev
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres789
+      POSTGRES_DB: blog
+    ports:
+      - "5432:5432"
